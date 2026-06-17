@@ -11,3 +11,8 @@ export interface GameState {
   players: Player[]
   currentRevealIndex: number
 }
+
+export type RootStackParamList = {
+  PlayersList: undefined
+  RoleReveal: undefined
+}

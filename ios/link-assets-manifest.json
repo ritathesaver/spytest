@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Montserrat-Bold.ttf",
+      "sha1": "8d25a921501a92977c63bbdc0545c9e8be0cac4b"
+    },
+    {
+      "path": "assets/fonts/Montserrat-Medium.ttf",
+      "sha1": "321d56022fc72f5e35decbc8e97442116a96908e"
+    },
+    {
+      "path": "assets/fonts/PaytoneOne-Regular.ttf",
+      "sha1": "a3e7ba4251c21532d9f7c0fb23645660e1c6a267"
+    }
+  ]
+}

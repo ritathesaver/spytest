@@ -41,6 +41,7 @@ const AppNavigator = () => {
           component={PlayersListScreen}
           options={{
             headerTitle: () => <Text variant="h4">Players</Text>,
+            headerLeft: () => {}
           }}
         />
         <Stack.Screen
@@ -53,7 +54,7 @@ const AppNavigator = () => {
                 hitSlop={12}
                 onPress={() => navigation.goBack()}
               >
-                <ChevronLeft size={15} color={colors.dark} />
+                <ChevronLeft size={15} color={colors.black} />
               </Pressable>
             ),
           })}

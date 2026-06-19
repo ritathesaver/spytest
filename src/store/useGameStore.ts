@@ -7,7 +7,6 @@ interface GameStore extends GameState {
   removePlayer: (id: string) => void
   assignRoles: () => void
   nextPlayer: () => void
-  reset: () => void
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -42,6 +41,4 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set((state) => ({
       currentRevealIndex: state.currentRevealIndex + 1,
     })),
-
-  reset: () => set({ players: [], currentRevealIndex: 0 }),
 }))

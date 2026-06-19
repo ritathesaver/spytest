@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated'
-import { Colors } from '../constants/colors'
-import AppText from './AppText'
+import { colors } from '../constants/colors'
+import Text from './Text'
 
 interface Props {
   count: number
@@ -17,7 +17,7 @@ interface Props {
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
-export default function Button({ count, onPress, visible }: Props) {
+const Button = ({ count, onPress, visible }: Props) => {
   const translateY = useSharedValue(120)
   const press = useSharedValue(0)
 
@@ -44,9 +44,9 @@ export default function Button({ count, onPress, visible }: Props) {
       }}
     >
       <View style={styles.btn}>
-        <AppText variant="h4" style={styles.label}>CONTINUE</AppText>
+        <Text variant="h4" style={styles.label}>CONTINUE</Text>
         <View style={styles.divider} />
-        <AppText variant='body' style={styles.count}>{count} Players</AppText>
+        <Text variant='body' style={styles.count}>{count} Players</Text>
       </View>
     </AnimatedPressable>
   )
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 28,
     paddingBottom: 22,
     paddingTop: 23,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     shadowColor: '#000',
@@ -76,19 +76,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 14,
     paddingVertical: 5,
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
     borderRadius: 32,
   },
   label: {
-    color: Colors.dark,
+    color: colors.dark,
   },
   divider: {
     width: 2,
     height: 36,
     marginTop: 8,
-    backgroundColor: Colors.dark,
+    backgroundColor: colors.dark,
   },
   count: {
-    color: Colors.dark,
+    color: colors.dark,
   },
 })
+
+export default Button

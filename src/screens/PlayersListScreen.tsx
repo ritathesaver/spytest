@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { useHeaderHeight } from '@react-navigation/elements'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useGameStore } from '../store/useGameStore'
 import { RootStackParamList } from '../types'
@@ -17,16 +18,17 @@ import PlayerItem from '../components/PlayerItem'
 import PlayerInput from '../components/PlayerInput'
 import Button from '../components/Button'
 import Background from '../components/Background'
-import AppText from '../components/AppText'
+import Text from '../components/Text'
 
 const MAX_PLAYERS = 10
 const MIN_TO_CONTINUE = 3
 
 type Nav = StackNavigationProp<RootStackParamList, 'PlayersList'>
 
-export default function PlayersListScreen() {
+const PlayersListScreen = () => {
   const navigation = useNavigation<Nav>()
   const insets = useSafeAreaInsets()
+  const headerHeight = useHeaderHeight()
   const { players, addPlayer, removePlayer, assignRoles } = useGameStore()
   const [inputValue, setInputValue] = useState('')
   const inputRef = useRef<TextInput>(null)
@@ -40,7 +42,6 @@ export default function PlayersListScreen() {
     if (!trimmed || isFull) return
     addPlayer(trimmed)
     setInputValue('')
-    // когда список заполнен — инпут скрывается, поэтому убираем фокус/клавиатуру
     if (players.length + 1 >= MAX_PLAYERS) {
       Keyboard.dismiss()
     }
@@ -56,13 +57,9 @@ export default function PlayersListScreen() {
         <View
           style={[
             styles.root,
-            { paddingTop: insets.top, paddingBottom: insets.bottom },
+            { paddingTop: headerHeight, paddingBottom: insets.bottom },
           ]}
         >
-          <AppText variant="h4" style={styles.title}>
-            Players
-          </AppText>
-
           <KeyboardAvoidingView
             style={styles.flex}
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -75,7 +72,7 @@ export default function PlayersListScreen() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={[
                 styles.list,
-                { paddingBottom: canContinue ? 110 : 8 },
+                { paddingBottom: canContinue ? 60 : 8 },
               ]}
               onContentSizeChange={() =>
                 scrollRef.current?.scrollToEnd({ animated: true })
@@ -102,9 +99,9 @@ export default function PlayersListScreen() {
           </KeyboardAvoidingView>
 
           {!canContinue && (
-            <AppText variant="caption" style={styles.hint}>
+            <Text variant="caption" style={styles.hint}>
               Add at least 3 players to continue
-            </AppText>
+            </Text>
           )}
           <Button
             visible={canContinue}
@@ -128,12 +125,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingTop: 34
   },
-  title: {
-    textAlign: 'center',
-    paddingVertical: 16,
-  },
   hint: {
     paddingBottom: 36,
     textAlign: 'center',
   },
 })
+
+export default PlayersListScreen

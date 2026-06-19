@@ -1,21 +1,21 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity, Text } from 'react-native'
-import { Colors } from '../constants/colors'
+import { StyleSheet, TouchableOpacity } from 'react-native'
+import { colors } from '../constants/colors'
+import { Plus } from './icons'
 
 interface Props {
-  label?: string
   onPress: () => void
   disabled?: boolean
 }
 
-const RoundButton: React.FC<Props> = ({ label = '+', onPress, disabled }) => {
+const RoundButton: React.FC<Props> = ({ onPress, disabled }) => {
   return (
     <TouchableOpacity
       style={[styles.btn, disabled && styles.btnDisabled]}
       onPress={onPress}
       disabled={disabled}
     >
-      <Text style={styles.label}>{label}</Text>
+      <Plus size={26} color={colors.textMuted} />
     </TouchableOpacity>
   )
 }
@@ -27,19 +27,13 @@ const styles = StyleSheet.create({
     width: 61,
     height: 61,
     borderRadius: 32,
-    backgroundColor: Colors.dark,
+    backgroundColor: colors.dark,
     alignItems: 'center',
     justifyContent: 'center',
     boxShadow: '5.23px 5.23px 2.57px #00000040',
     elevation: 4,
   },
   btnDisabled: {
-    opacity: 0.4,
-  },
-  label: {
-    color: Colors.textMuted,
-    fontSize: 30,
-    lineHeight: 32,
-    fontWeight: '700',
+    opacity: 0.9,
   },
 })

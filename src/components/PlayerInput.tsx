@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
-import { Colors } from '../constants/colors'
+import { colors } from '../constants/colors'
 import RoundButton from './RoundButton'
-import { Fonts } from '../constants/fonts'
+import { fonts } from '../constants/fonts'
 
 interface Props {
   value: string
@@ -22,7 +22,7 @@ const PlayerInput = forwardRef<TextInput, Props>(
             value={value}
             onChangeText={onChange}
             placeholder="Enter player name"
-            placeholderTextColor={Colors.textMuted}
+            placeholderTextColor={colors.textMuted}
             onSubmitEditing={onAdd}
             submitBehavior="submit"
             returnKeyType="next"
@@ -30,7 +30,7 @@ const PlayerInput = forwardRef<TextInput, Props>(
             maxLength={20}
           />
         </View>
-        <RoundButton label="+" onPress={onAdd} disabled={disabled} />
+        <RoundButton onPress={onAdd} disabled={disabled || !value} />
       </View>
     )
   },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     flex: 1,
-    backgroundColor: Colors.dark,
+    backgroundColor: colors.dark,
     borderRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 16,
@@ -57,11 +57,10 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   input: {
-    color: Colors.white,
+    color: colors.white,
     fontSize: 20,
-    fontFamily: Fonts.paytone,
+    fontFamily: fonts.paytone,
     fontWeight: 'normal',
     fontStyle: 'normal',
-    includeFontPadding: false,
   },
 })

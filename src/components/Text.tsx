@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, TextProps, TextStyle } from 'react-native'
-import { Colors } from '../constants/colors'
-import { Fonts } from '../constants/fonts'
+import { StyleSheet, Text as RNText, TextProps, TextStyle } from 'react-native'
+import { colors } from '../constants/colors'
+import { fonts } from '../constants/fonts'
 
 export type TextVariant =
   | 'h1' // Paytone One 42
@@ -17,16 +17,16 @@ interface Props extends TextProps {
   color?: string
 }
 
-export default function AppText({
+const Text = ({
   variant = 'body',
-  color = Colors.white,
+  color = colors.white,
   style,
   ...rest
-}: Props) {
-  return <Text {...rest} style={[styles[variant], { color }, style]} />
+}: Props) => {
+  return <RNText {...rest} style={[styles[variant], { color }, style]} />
 }
 
-const paytone: TextStyle = { fontFamily: Fonts.paytone, fontWeight: '400' }
+const paytone: TextStyle = { fontFamily: fonts.paytone, fontWeight: '400' }
 
 const styles = StyleSheet.create({
   h1: { ...paytone, fontSize: 42},
@@ -35,15 +35,17 @@ const styles = StyleSheet.create({
   h4: { ...paytone, fontSize: 24},
   h5: { ...paytone, fontSize: 20},
   body: {
-    fontFamily: Fonts.montserratBold,
+    fontFamily: fonts.montserratBold,
     fontWeight: '700',
     fontSize: 18,
     lineHeight: 24,
   },
   caption: {
-    fontFamily: Fonts.montserratMedium,
+    fontFamily: fonts.montserratMedium,
     fontWeight: '500',
     fontSize: 15,
     lineHeight: 20,
   },
 })
+
+export default Text

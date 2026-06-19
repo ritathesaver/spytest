@@ -5,7 +5,7 @@ interface Props {
   children?: React.ReactNode
 }
 
-export default function Background({ children }: Props) {
+const Background = ({ children }: Props) => {
   return (
     <ImageBackground
       source={require('../../assets/pics/bg.png')}
@@ -34,3 +34,5 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 })
+
+export default Background

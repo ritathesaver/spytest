@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { GameState, Player, Role } from '../types'
+import { GameState, Player } from '../types'
+import { playerImages } from '../constants/images'
 
 interface GameStore extends GameState {
   addPlayer: (name: string) => void
@@ -8,8 +9,6 @@ interface GameStore extends GameState {
   nextPlayer: () => void
   reset: () => void
 }
-
-const ROLES: Role[] = ['Imposter', 'Diva']
 
 export const useGameStore = create<GameStore>((set, get) => ({
   players: [],
@@ -30,10 +29,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   assignRoles: () => {
     const { players } = get()
-    const shuffled = [...players].sort(() => Math.random() - 0.5)
-    const assigned: Player[] = shuffled.map((p, i) => ({
+    const imposterIndex = Math.floor(Math.random() * players.length)
+    const assigned: Player[] = players.map((p, i) => ({
       ...p,
-      role: ROLES[i % ROLES.length],
+      role: i === imposterIndex ? 'Imposter' : 'Diva',
+      image: Math.floor(Math.random() * playerImages.length),
     }))
     set({ players: assigned, currentRevealIndex: 0 })
   },

@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
 import { scheduleOnRN } from 'react-native-worklets'
-import { Colors } from '../constants/colors'
-import AppText from './AppText'
+import { colors } from '../constants/colors'
+import Text from './Text'
+import { Cross } from './icons'
 
 interface Props {
   name: string
@@ -16,7 +17,7 @@ interface Props {
 
 const ITEM_MARGIN = 15
 
-export default function PlayerItem({ name, onRemove }: Props) {
+const PlayerItem = ({ name, onRemove }: Props) => {
   const enter = useSharedValue(0)
   const visible = useSharedValue(1)
 
@@ -32,18 +33,17 @@ export default function PlayerItem({ name, onRemove }: Props) {
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: enter.value * visible.value,
-    // maxHeight: ITEM_HEIGHT * visible.value,
     marginBottom: ITEM_MARGIN * visible.value,
     transform: [{ translateY: (1 - enter.value) * 20 }],
   }))
 
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
-      <AppText variant="h3" numberOfLines={1} style={styles.name}>
+      <Text variant="h3" numberOfLines={1} style={styles.name}>
         {name}
-      </AppText>
-      <TouchableOpacity onPress={handleRemove} hitSlop={12}>
-        <Text style={styles.x}>✕</Text>
+      </Text>
+      <TouchableOpacity onPress={handleRemove} hitSlop={16}>
+        <Cross size={20} color={colors.white} />
       </TouchableOpacity>
     </Animated.View>
   )
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: Colors.dark,
+    backgroundColor: colors.dark,
     borderRadius: 30,
     paddingHorizontal: 24,
     paddingVertical: 16,
@@ -64,14 +64,10 @@ const styles = StyleSheet.create({
   },
   name: {
     flex: 1,
-    color: Colors.white,
+    color: colors.white,
     lineHeight: 30,
-    includeFontPadding: false,
     textAlignVertical: 'center',
   },
-  x: {
-    color: Colors.white,
-    fontSize: 15,
-    fontWeight: '600',
-  },
 })
+
+export default PlayerItem

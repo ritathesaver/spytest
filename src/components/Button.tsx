@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import Animated, {
+  Easing,
+  SlideInDown,
+  SlideOutDown,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated'
 import { colors } from '../constants/colors'
@@ -18,23 +20,22 @@ interface Props {
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
 const Button = ({ count, onPress, visible }: Props) => {
-  const translateY = useSharedValue(120)
   const press = useSharedValue(0)
 
-  useEffect(() => {
-    translateY.value = withSpring(visible ? 0 : 120, { stiffness: 1200 })
-  }, [visible])
-
-  const animatedStyle = useAnimatedStyle(() => ({
+  const pressStyle = useAnimatedStyle(() => ({
     transform: [
-      { translateY: translateY.value + press.value * 5 },
+      { translateY: press.value * 5 },
       { scale: 1 - press.value * 0.03 },
     ],
   }))
 
+  if (!visible) return null
+
   return (
     <AnimatedPressable
-      style={[styles.wrapper, animatedStyle]}
+      style={[styles.wrapper, pressStyle]}
+      entering={SlideInDown.duration(260).easing(Easing.out(Easing.cubic))}
+      exiting={SlideOutDown.duration(200).easing(Easing.in(Easing.cubic))}
       onPress={onPress}
       onPressIn={() => {
         press.value = withTiming(1, { duration: 90 })
@@ -46,7 +47,7 @@ const Button = ({ count, onPress, visible }: Props) => {
       <View style={styles.btn}>
         <Text variant="h4" style={styles.label}>CONTINUE</Text>
         <View style={styles.divider} />
-        <Text variant='body' style={styles.count}>{count} Players</Text>
+        <Text variant="body" style={styles.count}>{count} Players</Text>
       </View>
     </AnimatedPressable>
   )

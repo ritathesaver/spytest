@@ -72,7 +72,7 @@ const PlayersListScreen = () => {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={[
                 styles.list,
-                { paddingBottom: canContinue ? 60 : 8 },
+                { paddingBottom: canContinue ? 64 : 8 },
               ]}
               onContentSizeChange={() =>
                 scrollRef.current?.scrollToEnd({ animated: true })

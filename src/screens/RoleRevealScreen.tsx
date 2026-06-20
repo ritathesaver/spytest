@@ -56,9 +56,6 @@ const RoleRevealScreen = () => {
   const revealed = useSharedValue(false)
   const locked = useSharedValue(false)
 
-  const cardX = useSharedValue(0)
-  const cardOpacity = useSharedValue(1)
-
   const hintBob = useSharedValue(0)
 
   useEffect(() => {
@@ -78,24 +75,12 @@ const RoleRevealScreen = () => {
       return
     }
     nextPlayer()
-    cardX.value = width * 0.28
-    cardOpacity.value = 0
-    cardX.value = withTiming(0, { duration: 260 })
-    cardOpacity.value = withTiming(1, { duration: 260 }, (done) => {
-      'worklet'
-      if (done) locked.value = false
-    })
-  }, [currentRevealIndex, players.length, nextPlayer, cardX, cardOpacity, locked])
+    locked.value = false
+  }, [currentRevealIndex, players.length, nextPlayer, locked])
 
   const handleReleased = useCallback(() => {
-    setTimeout(() => {
-      cardOpacity.value = withTiming(0, { duration: 220 })
-      cardX.value = withTiming(-width * 0.28, { duration: 220 }, (done) => {
-        'worklet'
-        if (done) runOnJS(commitNext)()
-      })
-    }, NEXT_DELAY)
-  }, [cardX, cardOpacity, commitNext])
+    setTimeout(commitNext, NEXT_DELAY)
+  }, [commitNext])
 
   const pan = usePanGesture({
     onBegin: () => {
@@ -126,17 +111,13 @@ const RoleRevealScreen = () => {
     },
   })
 
-  const cardStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: cardX.value }],
-    opacity: cardOpacity.value,
-  }))
 
   const curtainStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: pull.value }],
+    top: pull.value,
   }))
 
   const hintStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: hintBob.value }],
+    top: hintBob.value,
   }))
 
   const handleStartGame = () => {
@@ -166,7 +147,7 @@ const RoleRevealScreen = () => {
             </Pressable>
           </View>
         ) : (
-            <Animated.View style={[styles.card, cardStyle]}>
+            <View style={styles.card}>
 
               <View
                 style={[
@@ -177,7 +158,7 @@ const RoleRevealScreen = () => {
                   },
                 ]}
               >
-                <info.Icon  />
+                <info.Icon />
                 <Text variant="h2" color={info.color}>
                   {info.title}
                 </Text>
@@ -215,7 +196,7 @@ const RoleRevealScreen = () => {
                   </Animated.View>
                 </Animated.View>
               </GestureDetector>
-            </Animated.View>
+            </View>
         )}
       </View>
   )
@@ -249,7 +230,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
+    height,
     alignItems: 'center',
   },
   playerName: {

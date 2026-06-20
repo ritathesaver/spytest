@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
+  FadeInDown,
+  FadeOut,
+  LinearTransition,
 } from 'react-native-reanimated'
-import { scheduleOnRN } from 'react-native-worklets'
 import { colors } from '../constants/colors'
 import Text from './Text'
 import { Cross } from './icons'
@@ -18,31 +17,17 @@ interface Props {
 const ITEM_MARGIN = 15
 
 const PlayerItem = ({ name, onRemove }: Props) => {
-  const enter = useSharedValue(0)
-  const visible = useSharedValue(1)
-
-  useEffect(() => {
-    enter.value = withTiming(1, { duration: 200 })
-  }, [])
-
-  const handleRemove = () => {
-    visible.value = withTiming(0, { duration: 200 }, (finished) => {
-      if (finished) scheduleOnRN(onRemove)
-    })
-  }
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: enter.value * visible.value,
-    marginBottom: ITEM_MARGIN * visible.value,
-    transform: [{ translateY: (1 - enter.value) * 20 }],
-  }))
-
   return (
-    <Animated.View style={[styles.container, animatedStyle]}>
+    <Animated.View
+      style={styles.container}
+      entering={FadeInDown.duration(200)}
+      exiting={FadeOut.duration(200)}
+      layout={LinearTransition.duration(200)}
+    >
       <Text variant="h3" numberOfLines={1} style={styles.name}>
         {name}
       </Text>
-      <TouchableOpacity onPress={handleRemove} hitSlop={16}>
+      <TouchableOpacity onPress={onRemove} hitSlop={16}>
         <Cross size={20} color={colors.white} />
       </TouchableOpacity>
     </Animated.View>
@@ -58,6 +43,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     paddingHorizontal: 24,
     paddingVertical: 16,
+    marginBottom: ITEM_MARGIN,
     overflow: 'hidden',
     boxShadow: '0px 8px 8px #00000035',
     elevation: 4,
@@ -67,6 +53,8 @@ const styles = StyleSheet.create({
     color: colors.white,
     lineHeight: 30,
     textAlignVertical: 'center',
+    includeFontPadding: false,
+    paddingBottom: Platform.OS === 'ios' ? 0 : 4,
   },
 })
 

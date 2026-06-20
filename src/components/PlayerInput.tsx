@@ -62,5 +62,8 @@ const styles = StyleSheet.create({
     fontFamily: fonts.paytone,
     fontWeight: 'normal',
     fontStyle: 'normal',
+    padding: 0,
+    includeFontPadding: false,
+    textAlignVertical: 'center',
   },
 })

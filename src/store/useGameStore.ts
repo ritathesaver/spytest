@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import uuid from 'react-native-uuid'
 import { GameState, Player } from '../types'
 import { playerImages } from '../constants/images'
 
@@ -17,7 +18,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set((state) => ({
       players: [
         ...state.players,
-        { id: Date.now().toString(), name },
+        { id: uuid.v4() as string, name },
       ],
     })),
 

@@ -18,4 +18,15 @@ buildscript {
     }
 }
 
+// Expose SDK versions to third-party libraries that read them from
+// rootProject.ext via safeExtGet (e.g. gesture-handler, screens, svg,
+// safe-area-context). The buildscript.ext block above is a separate scope
+// and is not visible to those libraries.
+ext {
+    buildToolsVersion = "36.0.0"
+    minSdkVersion = 24
+    compileSdkVersion = 36
+    targetSdkVersion = 36
+}
+
 apply plugin: "com.facebook.react.rootproject"
